@@ -2,13 +2,14 @@ import time
 from redis import Redis
 from telegram.ext import Updater, CommandHandler
 from telegram.ext import MessageHandler, Filters
-from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove)
+from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode)
 
 from answers.predefined_answers import predefined_answers
 
 import user
 from questions import questions
 from token_file import token
+from institutions import institutions
 
 redis = Redis(host='127.0.0.1', port=6379, db=0)
 
@@ -18,6 +19,15 @@ TOKEN = token
 def start(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text=predefined_answers.welcome_message)
 
+def build_nice_response(match):
+    name = match['name']
+    budget = match['budget']
+    num_scholarships = match['num_scholarships']
+    response = '<b> ' + name + '</b>\n'
+    response += 'Number of Scholarships: ' + str(num_scholarships) + '\n'
+    response += 'Voulume of the Scholarship' + str(budget) + '\n'
+    response += 'Talk to theme here: <a href="http://google.com">link</a>'
+    return response
 
 def echo(bot, update):
     chat_id = update.message.chat_id
@@ -25,7 +35,6 @@ def echo(bot, update):
     user_profile = redis.get(chat_id)
 
     if user_profile:
-
         content = update.message.text
         returning_user = user.create_user_from_json(chat_id, user_profile.decode("utf-8"))
         if returning_user.last_question:
@@ -37,15 +46,15 @@ def echo(bot, update):
             else:
                 bot.send_message(chat_id=chat_id, text="Thats all! Here is the summay of our nice conversation:")
                 bot.send_message(chat_id=chat_id, text=returning_user.get_summary_message())
-                matches = returning_user.get_match()
+                match = returning_user.get_match()
                 time.sleep(3)
-                if not matches:
+                if not match:
                     bot.send_message(chat_id=chat_id, text="Sorry no matches found")
                 else:
                     bot.send_message(chat_id=chat_id, text="We found a match for you")
-                    bot.send_message(chat_id=chat_id, text=matches)
-                redis.delete()
-
+                    nice_match_found_message = build_nice_response(institutions[0])
+                    bot.send_photo(chat_id=chat_id, photo='http://pm1.narvii.com/6415/ac702663901e3934c297213aabaec4204ae6a106_128.jpg')
+                    bot.send_message(chat_id=chat_id, text=nice_match_found_message, parse_mode=ParseMode.HTML)
         redis.set(chat_id, returning_user.get_as_json())
     else:
         bot.send_message(chat_id=chat_id, text="Hello first_time_user")
