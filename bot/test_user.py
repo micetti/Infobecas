@@ -1,4 +1,8 @@
 import user
+import pytest
+
+
+user.questions = {'age' : 'How old are you?', 'name': 'Hey! What’s your name'}
 
 class TestClass:
     def test_user_create(self):
@@ -32,3 +36,22 @@ class TestClass:
         new_user.values['age'] = 5
         new_user.values['name'] = 'theo'
         assert new_user.next_question() == None
+
+    def test_generate_summary(self):
+        new_user = user.User('123')
+        new_user.values['age'] = 5
+        new_user.values['name'] = 'theo'
+        summary = new_user.get_summary()
+        assert True == ('age: 5' in summary)
+        assert True == ('name: theo' in summary)
+
+
+
+
+
+
+
+
+
+
+
