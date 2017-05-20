@@ -8,10 +8,11 @@ from answers.predefined_answers import PredefinedAnswers
 
 import user
 from questions import questions
+from token import token
 
-redis = Redis(host='database', port=6379, db=0)
+redis = Redis(host='127.0.0.1', port=6379, db=0)
 
-TOKEN = "364011497:AAEk7sCsGfB4XqvDIdCzkNs1dn-jsMS1c-Q"
+TOKEN = token
 
 
 def start(bot, update):

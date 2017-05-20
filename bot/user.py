@@ -1,10 +1,13 @@
 import json
+from questions import questions
 
 class User:
 
     def __init__(self, chat_id):
+        self.values = {}
+        for key in questions.keys():
+            self.values[key] = False
         self.chat_id = chat_id
-        self.values = {'name': False, 'age': False}
         self.last_question = 0
 
     def get_as_json(self):
@@ -22,8 +25,8 @@ class User:
 def create_user_from_json(chat_id, user_as_json):
     user_deserialised = json.loads(user_as_json)
     new_user = User(chat_id)
-    new_user.values['name'] = user_deserialised['name']
-    new_user.values['age'] = user_deserialised['age']
+    for key in questions.keys():
+        new_user.values[key] = user_deserialised[key]
     new_user.last_question = user_deserialised['last_question']
     return new_user
 
