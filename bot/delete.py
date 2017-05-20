@@ -3,7 +3,7 @@ from redis import Redis
 from telegram.ext import Updater, CommandHandler
 from telegram.ext import MessageHandler, Filters
 
-from answers.predefined_answers import PredefinedAnswers
+from answers.predefined_answers import predefined_answers
 
 import user
 from questions import questions
@@ -16,7 +16,7 @@ TOKEN = token
 
 
 def start(bot, update):
-    bot.send_message(chat_id=update.message.chat_id, text=PredefinedAnswers.welcome_message)
+    bot.send_message(chat_id=update.message.chat_id, text=predefined_answers.welcome_message)
 
 
 def echo(bot, update):
