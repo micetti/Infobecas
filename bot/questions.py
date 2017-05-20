@@ -1,1 +1,4 @@
-questions = {'age' : 'How old are you?', 'name': 'What is your name?'}
+questions = {
+'age' : 'How old are you?', 
+'name': 'What is your name?',
+}
