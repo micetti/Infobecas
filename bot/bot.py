@@ -32,7 +32,7 @@ def echo(bot, update):
         next_question = returning_user.next_question()
         returning_user.last_question = next_question
         if next_question:
-             dumb_reply(bot, chat_id, next_question)
+             responsive_reply(bot, chat_id, next_question)
         else:
             bot.send_message(chat_id=chat_id, text="Thats all!")
         redis.set(chat_id, returning_user.get_as_json())
@@ -41,11 +41,11 @@ def echo(bot, update):
         first_time_user = user.User(chat_id)
         next_question = first_time_user.next_question()
         first_time_user.last_question = next_question
-        dumb_reply(bot, chat_id, next_question)
+        responsive_reply(bot, chat_id, next_question)
         redis.set(chat_id, first_time_user.get_as_json())
 
 
-def dumb_reply(bot, chat_id, next_question):
+def responsive_reply(bot, chat_id, next_question):
     if next_question in predefined_answers:
         bot.send_message(chat_id=chat_id, text=questions[next_question],
                          reply_markup=ReplyKeyboardMarkup(predefined_answers[next_question], one_time_keyboard=True))
