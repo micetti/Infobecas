@@ -8,7 +8,7 @@ from answers.predefined_answers import PredefinedAnswers
 
 import user
 from questions import questions
-from token import token
+from token_file import token
 
 redis = Redis(host='127.0.0.1', port=6379, db=0)
 
@@ -26,13 +26,15 @@ def echo(bot, update):
     if user_profile:
         content = update.message.text
         returning_user = user.create_user_from_json(chat_id, user_profile.decode("utf-8"))
-        returning_user.answer_question(content)
-        next_question = returning_user.next_question()
-        returning_user.last_question = next_question
-        if next_question:
-            bot.send_message(chat_id, questions[next_question])
+        if returning_user.last_question:
+            returning_user.answer_question(content)
+            next_question = returning_user.next_question()
+            returning_user.last_question = next_question
+            if next_question:
+                bot.send_message(chat_id, questions[next_question])
         else:
-            bot.send_message(chat_id=chat_id, text="Thats all!")
+            bot.send_message(chat_id=chat_id, text="Thats all! Here is the summay of our nice conversation:")
+            bot.send_message(chat_id=chat_id, text=returning_user.get_summary_message())
         redis.set(chat_id, returning_user.get_as_json())
     else:
         bot.send_message(chat_id=chat_id, text="Hello first_time_user")
