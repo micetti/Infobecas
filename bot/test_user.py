@@ -1,6 +1,6 @@
 import user
 import pytest
-
+from institutions import institutions
 
 user.questions = {'age' : 'How old are you?', 'name': 'Hey! What’s your name'}
 
@@ -42,8 +42,25 @@ class TestClass:
         new_user.values['age'] = 5
         new_user.values['name'] = 'theo'
         summary = new_user.get_summary()
-        assert True == ('age: 5' in summary)
-        assert True == ('name: theo' in summary)
+        assert 'age: 5' in summary
+        assert 'name: theo' in summary
+
+    def test_match(self):
+        new_user = user.User('123')
+        values = {
+            'age' : 20,
+            'name': 'theo',
+            'scholarship_type': 'Financial aid',
+            'languages': 'english',
+            'personal_income': 9000,
+            'family_income': 30000,
+            'big_family': True,
+            'disability': True,
+            }
+        new_user.values = values
+        assert (new_user.get_match() == institutions[0])
+        assert (new_user.get_match() != institutions[1])
+
 
 
 
