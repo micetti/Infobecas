@@ -1,5 +1,6 @@
 import json
 from questions import questions
+from institutions import institutions
 
 class User:
     list_of_questions = questions
@@ -34,6 +35,25 @@ class User:
         for summary in summary_list:
             summary_message += summary + '\n'
         return summary_message
+
+    def get_match(self):
+        for institution in institutions:
+            is_match = []
+
+            is_match.append(self.values['age'] < institution['age'])
+            is_match.append(self.values['family_income'] < institution['family_income'])
+            is_match.append(self.values['personal_income'] < institution['personal_income'])
+            
+            is_match.append(self.values['scholarship_type'] in institution['scholarship_type'])
+            is_match.append(self.values['languages'] in institution['languages'])
+
+            if institution['big_family']:
+                is_match.append(self.values['big_family'])
+            if institution['disability']:
+                is_match.append(self.values['disability'])
+            
+            if False not in is_match:
+                return institution
 
 def create_user_from_json(chat_id, user_as_json):
     user_deserialised = json.loads(user_as_json)

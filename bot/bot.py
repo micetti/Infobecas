@@ -34,9 +34,9 @@ def echo(bot, update):
             returning_user.last_question = next_question
             if next_question:
                 responsive_reply(bot, chat_id, next_question)
-        else:
-            bot.send_message(chat_id=chat_id, text="Thats all! Here is the summay of our nice conversation:")
-            bot.send_message(chat_id=chat_id, text=returning_user.get_summary_message())
+            else:
+                bot.send_message(chat_id=chat_id, text="Thats all! Here is the summay of our nice conversation:")
+                bot.send_message(chat_id=chat_id, text=returning_user.get_summary_message())
         redis.set(chat_id, returning_user.get_as_json())
     else:
         bot.send_message(chat_id=chat_id, text="Hello first_time_user")
