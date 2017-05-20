@@ -37,6 +37,15 @@ def echo(bot, update):
             else:
                 bot.send_message(chat_id=chat_id, text="Thats all! Here is the summay of our nice conversation:")
                 bot.send_message(chat_id=chat_id, text=returning_user.get_summary_message())
+                matches = returning_user.get_match()
+                time.sleep(3)
+                if not matches:
+                    bot.send_message(chat_id=chat_id, text="Sorry no matches found")
+                else:
+                    bot.send_message(chat_id=chat_id, text="We found a match for you")
+                    bot.send_message(chat_id=chat_id, text=matches)
+                redis.delete()
+
         redis.set(chat_id, returning_user.get_as_json())
     else:
         bot.send_message(chat_id=chat_id, text="Hello first_time_user")

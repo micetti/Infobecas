@@ -1,8 +1,8 @@
 import user
-import pytest
 from institutions import institutions
 
-user.questions = {'age' : 'How old are you?', 'name': 'Hey! What’s your name'}
+user.questions = {'age': 'How old are you?', 'name': 'Hey! Whats your name'}
+
 
 class TestClass:
     def test_user_create(self):
@@ -54,8 +54,8 @@ class TestClass:
             'languages': 'english',
             'personal_income': 9000,
             'family_income': 30000,
-            'big_family': True,
-            'disability': True,
+            'big_family': 'Yes',
+            'disability': 'Yes',
             }
         new_user.values = values
         assert (new_user.get_match() == institutions[0])

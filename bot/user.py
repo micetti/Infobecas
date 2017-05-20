@@ -36,21 +36,22 @@ class User:
             summary_message += summary + '\n'
         return summary_message
 
+
     def get_match(self):
         for institution in institutions:
             is_match = []
 
-            is_match.append(self.values['age'] < institution['age'])
-            is_match.append(self.values['family_income'] < institution['family_income'])
-            is_match.append(self.values['personal_income'] < institution['personal_income'])
+            is_match.append(int(self.values['age']) < institution['age'])
+            is_match.append(int(self.values['family_income']) < institution['family_income'])
+            is_match.append(int(self.values['personal_income']) < institution['personal_income'])
             
-            is_match.append(self.values['scholarship_type'] in institution['scholarship_type'])
-            is_match.append(self.values['languages'] in institution['languages'])
+            is_match.append(self.values['scholarship_type'].lower() in institution['scholarship_type'])
+            is_match.append(self.values['languages'].lower() in institution['languages'])
 
             if institution['big_family']:
-                is_match.append(self.values['big_family'])
+                is_match.append(self.values['big_family'] == 'Yes')
             if institution['disability']:
-                is_match.append(self.values['disability'])
+                is_match.append(self.values['disability'] == 'Yes')
             
             if False not in is_match:
                 return institution
