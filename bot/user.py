@@ -62,5 +62,3 @@ def create_user_from_json(chat_id, user_as_json):
         new_user.values[key] = user_deserialised[key]
     new_user.last_question = user_deserialised['last_question']
     return new_user
-
-
