@@ -52,7 +52,7 @@ class TestClass:
             'name': 'theo',
             'scholarship_type': 'Financial aid',
             'languages': 'english',
-            'personal_income': 9000,
+            'personal_income': '9.000',
             'family_income': 30000,
             'big_family': 'Yes',
             'disability': 'Yes',
