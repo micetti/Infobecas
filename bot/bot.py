@@ -46,8 +46,9 @@ def build_nice_response(match):
 
 def responsive_reply(bot, chat_id, next_question):
     if next_question in predefined_answers:
+        markup = ReplyKeyboardMarkup(predefined_answers[next_question], one_time_keyboard=True)
         bot.send_message(chat_id=chat_id, text=questions[next_question],
-                         reply_markup=ReplyKeyboardMarkup(predefined_answers[next_question], one_time_keyboard=True))
+                         reply_markup=markup)
     else:
         bot.send_message(chat_id=chat_id, text=questions[next_question])
 
