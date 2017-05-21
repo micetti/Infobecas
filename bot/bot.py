@@ -76,6 +76,7 @@ def responsive_reply(bot, chat_id, next_question):
 def delete(bot, update):
     chat_id = update.message.chat_id
     redis.delete(chat_id)
+    bot.send_message(chat_id=chat_id, text="Starting over")
 
 
 if __name__ == '__main__':
