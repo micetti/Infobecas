@@ -73,6 +73,12 @@ def finalize_conversation(chat_id, bot, user_profile):
             bot.send_message(chat_id=chat_id, text=nice_match_found_message, parse_mode=ParseMode.HTML)
 
 
+def delete(bot, update):
+    chat_id = update.message.chat_id
+    redis.delete(chat_id)
+    bot.send_message(chat_id=chat_id, text="Starting over")
+
+
 if __name__ == '__main__':
     updater = Updater(TOKEN)
     dispatcher = updater.dispatcher
@@ -82,6 +88,9 @@ if __name__ == '__main__':
 
     run_handler = MessageHandler(Filters.text, run)
     dispatcher.add_handler(run_handler)
+
+    delete_handler = CommandHandler('delete', delete)
+    dispatcher.add_handler(delete_handler)
 
     updater.start_polling()
     updater.idle()
