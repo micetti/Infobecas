@@ -64,6 +64,11 @@ def responsive_reply(bot, chat_id, next_question):
         bot.send_message(chat_id=chat_id, text=questions[next_question])
 
 
+def delete(bot, update):
+    chat_id = update.message.chat_id
+    redis.delete(chat_id)
+
+
 if __name__ == '__main__':
     updater = Updater(TOKEN)
     dispatcher = updater.dispatcher
@@ -73,6 +78,9 @@ if __name__ == '__main__':
 
     echo_handler = MessageHandler(Filters.text, echo)
     dispatcher.add_handler(echo_handler)
+
+    delete_handler = CommandHandler('delete', delete)
+    dispatcher.add_handler(delete_handler)
 
     updater.start_polling()
     updater.idle()
