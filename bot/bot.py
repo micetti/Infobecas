@@ -12,7 +12,7 @@ from questions import questions
 from token_file import token
 from institutions import institutions
 
-redis = Redis(host='127.0.0.1', port=6379, db=0)
+redis = Redis(host='database', port=6379, db=0)
 
 TOKEN = token
 
@@ -41,7 +41,7 @@ def build_nice_response(match):
     num_scholarships = match['num_scholarships']
     response = '<b> ' + name + '</b>\n'
     response += 'They are offering this Scholarship to ' + str(num_scholarships) + ' people.\n'
-    response += 'In total it has a value of' + str(budget) + ' Euro.\n\n'
+    response += 'In total it has a value of ' + str(budget) + ' Euro.\n\n'
     response += 'Talk to them <a href="t.me/fake_uni1bot">here</a>'
     return response
 
@@ -85,7 +85,7 @@ def finalize_conversation(chat_id, bot, user_profile):
             bot.send_message(chat_id=chat_id, text="\nWe found a match for you\n")
             time.sleep(2)
             nice_match_found_message = build_nice_response(institutions[0])
-            bot.send_photo(chat_id=chat_id, photo='http://pm1.narvii.com/6415/ac702663901e3934c297213aabaec4204ae6a106_128.jpg')
+            bot.send_photo(chat_id=chat_id, photo='http://image.guardian.co.uk/sys-images/Society/Pix/site_furniture/2007/11/02/siemens.gif')
             bot.send_message(chat_id=chat_id, text=nice_match_found_message, parse_mode=ParseMode.HTML)
 
 
