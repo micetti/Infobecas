@@ -38,16 +38,14 @@ class User:
 
 
     def get_match(self):
+        self.sanitize_inputs()
         for institution in institutions:
             is_match = []
-
             is_match.append(int(self.values['age']) < institution['age'])
             is_match.append(int(self.values['family_income']) < institution['family_income'])
             is_match.append(int(self.values['personal_income']) < institution['personal_income'])
-            
             is_match.append(self.values['scholarship_type'].lower() in institution['scholarship_type'])
             is_match.append(self.values['languages'].lower() in institution['languages'])
-
             if institution['big_family']:
                 is_match.append(self.values['big_family'] == 'Yes')
             if institution['disability']:
@@ -55,6 +53,23 @@ class User:
             
             if False not in is_match:
                 return institution
+
+    def sanitize_inputs(self):
+        try:
+            self.values['age'] = int(self.values['age'])
+        except Exception:
+            self.values['age'] = 0
+
+        try:
+            self.values['family_income'] = int(self.values['family_income'])
+        except Exception as e:
+            self.values['family_income'] = 100000
+
+        try:
+            self.values['personal_income'] = int(self.values['personal_income'])
+        except Exception as e:
+            self.values['personal_income'] = 100000
+
 
 def create_user_from_json(chat_id, user_as_json):
     user_deserialised = json.loads(user_as_json)
