@@ -3,6 +3,10 @@ services:
     bot:
         build: ./bot
         container_name: bot
+
+    institution_bot:
+        build: ./institution_bot
+        container_name: institution_bot
     redis:
         image: redis
         container_name: database

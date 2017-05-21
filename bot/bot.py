@@ -41,7 +41,7 @@ def build_nice_response(match):
     response = '<b> ' + name + '</b>\n'
     response += 'Number of Scholarships: ' + str(num_scholarships) + '\n'
     response += 'Volume of the Scholarship' + str(budget) + '\n'
-    response += 'Talk to them here: <a href="http://google.com">link</a>'
+    response += 'Talk to them <a href="t.me/fake_uni1bot">here</a>'
     return response
 
 def responsive_reply(bot, chat_id, next_question):
